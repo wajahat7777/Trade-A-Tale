@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/bookImage"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/default_book_cover"
+        android:contentDescription="Book Cover" />
+
+    <RelativeLayout
+        android:id="@+id/bookDetails"
+        android:layout_toRightOf="@id/bookImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp">
+
+        <RelativeLayout
+            android:id="@+id/bookNameLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/bookName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Book Name"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/AppPrimary" />
+
+            <TextView
+                android:id="@+id/bookAuthor"
+                android:layout_toRightOf="@+id/bookName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Author"
+                android:textSize="14sp"
+                android:textColor="@color/AppPrimary" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/bookDescription"
+            android:layout_below="@+id/bookNameLayout"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Description"
+            android:textSize="14sp"
+            android:textColor="@color/AppPrimary"
+            android:maxLines="3"
+            android:ellipsize="end" />
+
+        <View
+            android:background="@color/AppPrimary"
+            android:layout_width="5dp"
+            android:layout_toRightOf="@id/bookNameLayout"
+            android:layout_marginHorizontal="10dp"
+            android:layout_height="150dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_toRightOf="@id/bookDetails"
+        android:id="@+id/bookCategoryLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/bookCategory"
+            android:text="Category"
+            android:padding="5dp"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:background="@drawable/button_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_margin="10dp"
+        android:layout_below="@id/bookImage"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:text="DELETE"
+        android:background="@drawable/button_background"
+        android:id="@+id/deleteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:background="@color/AppPrimary"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/deleteButton"
+        android:layout_marginHorizontal="10dp"
+        android:layout_height="5dp"/>
+
+</RelativeLayout>

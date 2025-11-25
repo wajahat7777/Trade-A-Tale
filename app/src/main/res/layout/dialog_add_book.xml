@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/bookNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Book Name"
+        android:inputType="text"
+        android:textColor="@color/AppPrimary"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/bookAuthorInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Author"
+        android:inputType="text"
+        android:textColor="@color/AppPrimary"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/bookDescriptionInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Description"
+        android:inputType="textMultiLine"
+        android:lines="3"
+        android:maxLines="5"
+        android:textColor="@color/AppPrimary"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/bookCategoriesInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Categories (comma-separated)"
+        android:inputType="text"
+        android:textColor="@color/AppPrimary"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/bookImagePreview"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/default_book_cover" />
+
+    <Button
+        android:id="@+id/chooseImageButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Upload Cover Photo"
+        android:textColor="@color/white"
+        android:background="@drawable/button_background" />
+
+    <TextView
+        android:id="@+id/imageStatusText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="No image selected"
+        android:textSize="14sp"
+        android:textColor="@color/AppPrimary" />
+
+    <ProgressBar
+        android:id="@+id/imageUploadProgress"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="@color/AppPrimary"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Save"
+            android:textColor="@color/white"
+            android:background="@drawable/button_background" />
+
+    </LinearLayout>
+
+</LinearLayout>
