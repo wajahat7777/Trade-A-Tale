@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/app_logo_orange_right"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.TradeATale"
+        tools:targetApi="31">
+        <activity
+            android:name=".ViewBookPage"
+            android:exported="false" />
+        <activity
+            android:name=".ChatPage"
+            android:exported="false" />
+        <activity
+            android:name=".SavedBooksPage"
+            android:exported="false" />
+        <activity
+            android:name=".BarterHistoryPage"
+            android:exported="false" />
+        <activity
+            android:name=".BarterRequestPage"
+            android:exported="false" />
+        <activity
+            android:name=".InventoryPage"
+            android:exported="false" />
+        <activity
+            android:name=".ProfilePage"
+            android:exported="false" />
+        <activity
+            android:name=".MessagesPage"
+            android:exported="false" />
+        <activity
+            android:name=".MenuPage"
+            android:exported="false" />
+        <activity
+            android:name=".SearchPage"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage"
+            android:exported="false" />
+        <activity
+            android:name=".EditProfilePage"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterationPage"
+            android:exported="false" />
+        <activity
+            android:name=".LogInPage"
+            android:exported="false" />
+        <activity
+            android:name=".WelcomePage"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
