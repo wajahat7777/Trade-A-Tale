@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BarterRequestPage">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Header -->
+            <RelativeLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/AppPrimary"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/menu_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:contentDescription="Menu"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/menu_logo" />
+
+                <ImageView
+                    android:id="@+id/logoImageView"
+                    android:layout_width="150dp"
+                    android:layout_height="75dp"
+                    android:src="@drawable/app_logo_white_right"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="ShelfShare Logo" />
+
+                <ImageView
+                    android:id="@+id/search_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="Search"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/search_logo" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
