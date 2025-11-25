@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/AppPrimary"
+    tools:context=".MenuPage">
+
+    <!-- Header -->
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EA3E23"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/menu_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:contentDescription="Menu"
+            android:layout_centerVertical="true"
+            android:src="@drawable/menu_logo" />
+
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:src="@drawable/app_logo_white_right"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="ShelfShare Logo" />
+
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="Search"
+            android:layout_centerVertical="true"
+            android:src="@drawable/search_logo" />
+    </RelativeLayout>
+
+    <!-- Menu Items -->
+    <LinearLayout
+        android:id="@+id/menuItemsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/messagesText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MESSAGES"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:padding="16dp" />
+
+        <TextView
+            android:id="@+id/savedBooksText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SAVED BOOKS"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:padding="16dp" />
+
+        <TextView
+            android:id="@+id/barterRequestText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BARTER REQUEST"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:padding="16dp" />
+
+        <TextView
+            android:id="@+id/inventoryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INVENTORY"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:padding="16dp" />
+
+        <TextView
+            android:id="@+id/barterHistoryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BARTER HISTORY"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:padding="16dp" />
+    </LinearLayout>
+
+    <!-- Bottom Options -->
+    <LinearLayout
+        android:id="@+id/bottomOptionsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <View
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
+
+        <TextView
+            android:id="@+id/viewProfileText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Profile"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/profile_icon"
+            android:drawablePadding="8dp"
+            android:padding="16dp" />
+
+        <TextView
+            android:id="@+id/logoutText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LogOut"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/logout_icon"
+            android:drawablePadding="8dp"
+            android:padding="16dp" />
+    </LinearLayout>
+
+</RelativeLayout>
