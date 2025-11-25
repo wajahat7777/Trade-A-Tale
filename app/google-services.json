@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "873650902512",
+    "project_id": "tradeatale-8ddcb",
+    "storage_bucket": "tradeatale-8ddcb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873650902512:android:19ef738a581e44658b7935",
+        "android_client_info": {
+        "package_name": "com.smdproject.TradeATale"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUruxNsz95ue1FYGHVbYGKbT62C9vq1z4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
