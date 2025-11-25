@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".RegisterationPage">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/header"
+                android:background="@color/AppPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/logoImageView"
+                    android:layout_width="200dp"
+                    android:layout_height="125dp"
+                    android:src="@drawable/app_logo_white_right"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="ShelfShare Logo" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/usernameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Your Username..."
+                android:textColorHint="#757575"
+                android:textColor="#000000"
+                android:padding="12dp"
+                android:layout_below="@id/header"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/edittext_border" />
+
+            <EditText
+                android:id="@+id/nameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Your Name..."
+                android:textColorHint="#757575"
+                android:textColor="#000000"
+                android:padding="12dp"
+                android:layout_below="@id/usernameEditText"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/edittext_border" />
+
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Your Email..."
+                android:textColorHint="#757575"
+                android:textColor="#000000"
+                android:padding="12dp"
+                android:layout_below="@id/nameEditText"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/edittext_border"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Password..."
+                android:textColorHint="#757575"
+                android:textColor="#000000"
+                android:padding="12dp"
+                android:layout_below="@id/emailEditText"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/edittext_border"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/contactEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Your Contact Number..."
+                android:textColorHint="#757575"
+                android:textColor="#000000"
+                android:padding="12dp"
+                android:layout_below="@id/passwordEditText"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/edittext_border"
+                android:inputType="phone" />
+
+            <Button
+                android:id="@+id/registerButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/button_background"
+                android:padding="12dp"
+                android:layout_below="@id/contactEditText"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="32dp" />
+
+            <TextView
+                android:id="@+id/alreadyRegisteredTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already Registered"
+                android:textColor="#EA3E23"
+                android:textStyle="bold"
+                android:layout_below="@id/registerButton"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:clickable="true" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
