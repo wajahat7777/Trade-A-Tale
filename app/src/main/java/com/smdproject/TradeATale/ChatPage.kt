@@ -70,6 +70,13 @@ class ChatPage : AppCompatActivity() {
             finish()
             return
         }
+        
+        // Prevent users from messaging themselves
+        if (currentUser.uid == chatUserId) {
+            Toast.makeText(this, "You cannot message yourself", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
         // Initialize views
         rootLayout = findViewById(R.id.main)
@@ -88,9 +95,19 @@ class ChatPage : AppCompatActivity() {
             adapter = messageAdapter
         }
 
+        // Scroll to bottom when keyboard appears
+        messageInput.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus && messageAdapter.itemCount > 0) {
+                messagesRecyclerView.postDelayed({
+                    messagesRecyclerView.scrollToPosition(messageAdapter.itemCount - 1)
+                }, 100)
+            }
+        }
+
         setHeaderTitle()
         listenForPartnerName()
         prepareConversation(currentUser.uid)
+        markMessagesAsRead(currentUser.uid)
 
         // Set initial state for animation (white header and orange text)
         headerLayout.setBackgroundColor(android.graphics.Color.WHITE)
@@ -147,16 +164,23 @@ class ChatPage : AppCompatActivity() {
             if (text.isEmpty() || partnerId.isNullOrEmpty() || convId.isNullOrEmpty()) {
                 return@setOnClickListener
             }
+            val messageRef = database.child("Chats").child(convId).child("messages").push()
             val messageData = mapOf(
+                "id" to messageRef.key,
                 "senderId" to currentUser.uid,
                 "receiverId" to partnerId,
                 "text" to text,
                 "timestamp" to ServerValue.TIMESTAMP
             )
-            database.child("Chats").child(convId).child("messages").push()
-                .setValue(messageData)
+            messageRef.setValue(messageData)
                 .addOnSuccessListener {
                     messageInput.text.clear()
+                    // Scroll to bottom after sending
+                    messagesRecyclerView.postDelayed({
+                        if (messageAdapter.itemCount > 0) {
+                            messagesRecyclerView.scrollToPosition(messageAdapter.itemCount - 1)
+                        }
+                    }, 200)
                 }
                 .addOnFailureListener {
                     Toast.makeText(this, "Failed to send message", Toast.LENGTH_SHORT).show()
@@ -232,16 +256,61 @@ class ChatPage : AppCompatActivity() {
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val messages = snapshot.children.mapNotNull { child ->
-                        child.getValue(ChatMessage::class.java)?.copy(id = child.key ?: "")
+                        val timestamp = child.child("timestamp").getValue(Long::class.java) 
+                            ?: child.child("timestamp").getValue(String::class.java)?.toLongOrNull()
+                            ?: 0L
+                        val senderId = child.child("senderId").getValue(String::class.java)
+                        val receiverId = child.child("receiverId").getValue(String::class.java)
+                        val text = child.child("text").getValue(String::class.java)
+                        
+                        if (text != null && senderId != null) {
+                            ChatMessage(
+                                id = child.key ?: "",
+                                senderId = senderId,
+                                receiverId = receiverId,
+                                text = text,
+                                timestamp = timestamp
+                            )
+                        } else {
+                            null
+                        }
                     }
                     messageAdapter.submitMessages(messages)
                     if (messages.isNotEmpty()) {
-                        messagesRecyclerView.scrollToPosition(messages.size - 1)
+                        messagesRecyclerView.post {
+                            val layoutManager = messagesRecyclerView.layoutManager as? LinearLayoutManager
+                            if (layoutManager != null) {
+                                layoutManager.scrollToPositionWithOffset(messages.size - 1, 0)
+                            } else {
+                                messagesRecyclerView.scrollToPosition(messages.size - 1)
+                            }
+                        }
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(this@ChatPage, "Failed to load messages", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ChatPage, "Failed to load messages: ${error.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+
+    private fun markMessagesAsRead(currentUserId: String) {
+        val convId = conversationId ?: return
+        database.child("Chats").child(convId).child("messages")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { messageSnapshot ->
+                        val senderId = messageSnapshot.child("senderId").getValue(String::class.java)
+                        val isRead = messageSnapshot.child("read").getValue(Boolean::class.java) ?: false
+                        // Mark as read if message is from partner and not already read
+                        if (senderId != currentUserId && !isRead) {
+                            messageSnapshot.ref.child("read").setValue(true)
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Silently fail
                 }
             })
     }

@@ -231,5 +231,10 @@ class ProfilePage : AppCompatActivity() {
         findViewById<Button>(R.id.InventoryButton).setOnClickListener {
             applyExitAnimationAndNavigate(InventoryPage::class.java, "View your inventory")
         }
+
+        // Logo click to navigate to HomePage
+        logoImageView.setOnClickListener {
+            applyExitAnimationAndNavigate(HomePage::class.java, "Navigating to HomePage")
+        }
     }
 }

@@ -8,11 +8,7 @@ import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -31,10 +27,18 @@ class SearchPage : AppCompatActivity() {
     private lateinit var menuIcon: ImageView
     private lateinit var searchInput: EditText
     private lateinit var searchButton: Button
+    private lateinit var categoryFilterSpinner: Spinner
     private lateinit var booksRecyclerView: RecyclerView
     private lateinit var bookAdapter: BookAdapter
     private lateinit var database: com.google.firebase.database.DatabaseReference
     private val TAG = "SearchPage"
+    
+    private val categories = listOf(
+        "All Categories", "Fiction", "Non-Fiction", "Mystery", "Romance", "Science Fiction",
+        "Fantasy", "Horror", "Thriller", "Biography", "History",
+        "Self-Help", "Business", "Education", "Children's", "Young Adult",
+        "Poetry", "Drama", "Comedy", "Adventure", "Classic"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +64,13 @@ class SearchPage : AppCompatActivity() {
         menuIcon = findViewById(R.id.menu_icon)
         searchInput = findViewById(R.id.Search)
         searchButton = findViewById(R.id.SearchLogo)
+        categoryFilterSpinner = findViewById(R.id.categoryFilterSpinner)
         booksRecyclerView = findViewById(R.id.booksRecyclerView)
+
+        // Setup category filter spinner
+        val categoryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        categoryFilterSpinner.adapter = categoryAdapter
 
         // Set up RecyclerView
         bookAdapter = BookAdapter()
@@ -161,49 +171,86 @@ class SearchPage : AppCompatActivity() {
         // Set click listener for search button
         searchButton.setOnClickListener {
             val title = searchInput.text.toString().trim()
-            if (title.isNotEmpty()) {
-                searchBooksByName(title)
-            } else {
-                Toast.makeText(this, "Please enter a book title", Toast.LENGTH_SHORT).show()
+            val selectedCategory = categoryFilterSpinner.selectedItem?.toString() ?: "All Categories"
+            searchBooks(title, selectedCategory)
+        }
+
+        // Also search when category changes
+        categoryFilterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+                val title = searchInput.text.toString().trim()
+                val selectedCategory = categories[position]
+                searchBooks(title, selectedCategory)
             }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
         // Add click listener to book items
         bookAdapter.setOnItemClickListener { book ->
             applyExitAnimationAndNavigate(ViewBookPage::class.java, "Navigating to ViewBookPage", book)
         }
+
+        // Logo click to navigate to HomePage
+        logoImageView.setOnClickListener {
+            applyExitAnimationAndNavigate(HomePage::class.java, "Navigating to HomePage")
+        }
     }
 
-    private fun searchBooksByName(title: String) {
+    private fun searchBooks(title: String, category: String) {
         val bookList = mutableListOf<Book>()
-        database.child("book").orderByChild("name").startAt(title).endAt(title + "\uf8ff")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (!snapshot.exists()) {
-                        Toast.makeText(this@SearchPage, "No books found", Toast.LENGTH_SHORT).show()
-                        bookAdapter.submitBooks(emptyList())
-                        return
-                    }
-
-                    snapshot.children.forEach { bookSnapshot ->
-                        val bookId = bookSnapshot.key ?: return@forEach
-                        val image = bookSnapshot.child("image").getValue(String::class.java)
-                        val name = bookSnapshot.child("name").getValue(String::class.java)
-                        val author = bookSnapshot.child("author").getValue(String::class.java)
-                        bookList.add(Book(bookId, image, name, author))
-                    }
-
-                    bookAdapter.submitBooks(bookList)
-                    if (bookList.isEmpty()) {
-                        Toast.makeText(this@SearchPage, "No books found matching '$title'", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e(TAG, "Search failed: ${error.message}")
-                    Toast.makeText(this@SearchPage, "Search failed: ${error.message}", Toast.LENGTH_SHORT).show()
+        
+        val query = if (title.isNotEmpty()) {
+            database.child("book").orderByChild("name").startAt(title).endAt(title + "\uf8ff")
+        } else {
+            database.child("book")
+        }
+        
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (!snapshot.exists()) {
+                    Toast.makeText(this@SearchPage, "No books found", Toast.LENGTH_SHORT).show()
                     bookAdapter.submitBooks(emptyList())
+                    return
                 }
-            })
+
+                snapshot.children.forEach { bookSnapshot ->
+                    val bookId = bookSnapshot.key ?: return@forEach
+                    
+                    // Filter by category if not "All Categories"
+                    if (category != "All Categories") {
+                        val bookCategories = bookSnapshot.child("categories").children.mapNotNull { 
+                            it.getValue(String::class.java) 
+                        }
+                        if (!bookCategories.contains(category)) {
+                            return@forEach
+                        }
+                    }
+                    
+                    val image = bookSnapshot.child("image").getValue(String::class.java)
+                    val name = bookSnapshot.child("name").getValue(String::class.java)
+                    val author = bookSnapshot.child("author").getValue(String::class.java)
+                    bookList.add(Book(bookId, image, name, author))
+                }
+
+                bookAdapter.submitBooks(bookList)
+                if (bookList.isEmpty()) {
+                    val message = if (title.isNotEmpty()) {
+                        "No books found matching '$title'"
+                    } else if (category != "All Categories") {
+                        "No books found in category '$category'"
+                    } else {
+                        "No books found"
+                    }
+                    Toast.makeText(this@SearchPage, message, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e(TAG, "Search failed: ${error.message}")
+                Toast.makeText(this@SearchPage, "Search failed: ${error.message}", Toast.LENGTH_SHORT).show()
+                bookAdapter.submitBooks(emptyList())
+            }
+        })
     }
 }

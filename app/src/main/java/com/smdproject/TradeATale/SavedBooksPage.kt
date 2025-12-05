@@ -140,6 +140,11 @@ class SavedBooksPage : AppCompatActivity() {
         searchIcon.setOnClickListener {
             applyExitAnimationAndNavigate(SearchPage::class.java, "Navigating to SearchPage")
         }
+
+        // Logo click to navigate to HomePage
+        logoImageView.setOnClickListener {
+            applyExitAnimationAndNavigate(HomePage::class.java, "Navigating to HomePage")
+        }
     }
 
     private fun loadSavedBooks() {

@@ -52,6 +52,44 @@
 
             </RelativeLayout>
 
+            <!-- Title -->
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/header"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Barter Requests"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/AppPrimary" />
+
+            <!-- Empty State -->
+            <TextView
+                android:id="@+id/emptyTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titleTextView"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:text="No barter requests yet"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray"
+                android:visibility="gone" />
+
+            <!-- RecyclerView for Requests -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/requestsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titleTextView"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp" />
+
         </RelativeLayout>
 
     </ScrollView>

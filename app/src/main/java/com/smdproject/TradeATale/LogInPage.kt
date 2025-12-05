@@ -34,8 +34,12 @@ class LogInPage : AppCompatActivity() {
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
-        if (auth.currentUser != null) {
-            startActivity(Intent(this, HomePage::class.java))
+        auth.currentUser?.let { current ->
+            if (current.isEmailVerified) {
+                startActivity(Intent(this, HomePage::class.java))
+            } else {
+                startActivity(Intent(this, EmailVerificationPage::class.java))
+            }
             finish()
             return
         }
@@ -150,6 +154,17 @@ class LogInPage : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
+                        val user = auth.currentUser
+                        if (user == null || !user.isEmailVerified) {
+                            Toast.makeText(
+                                this,
+                                "Please verify your email before logging in.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            startActivity(Intent(this, EmailVerificationPage::class.java))
+                            finish()
+                            return@addOnCompleteListener
+                        }
                         Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
                         // Fade out and slide out to the right after successful login
                         val fadeOut = AlphaAnimation(1f, 0f)

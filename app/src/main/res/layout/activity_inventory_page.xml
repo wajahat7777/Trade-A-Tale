@@ -52,16 +52,30 @@
 
             </RelativeLayout>
 
+            <!-- Title Section -->
+            <TextView
+                android:id="@+id/inventoryTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/header"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="My Inventory"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/AppPrimary" />
+
             <!-- RecyclerView for Books -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/bookRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/header"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_below="@id/inventoryTitle"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="80dp" />
 
         </RelativeLayout>
 

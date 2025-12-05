@@ -52,15 +52,41 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/messagesText"
+        <RelativeLayout
+            android:id="@+id/messagesContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="MESSAGES"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:padding="16dp" />
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/messagesText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MESSAGES"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/messageCountBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/messagesText"
+                android:layout_marginStart="12dp"
+                android:layout_centerVertical="true"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:background="@drawable/button_background"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:minWidth="32dp"
+                android:gravity="center"
+                android:visibility="gone" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/savedBooksText"

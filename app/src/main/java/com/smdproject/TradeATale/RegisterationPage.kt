@@ -164,6 +164,12 @@ class RegisterationPage : AppCompatActivity() {
                     if (task.isSuccessful) {
                         val user = auth.currentUser
                         saveUserToRealtimeDatabase(user, username, name, contact)
+                        user?.sendEmailVerification()
+                        Toast.makeText(
+                            this,
+                            "Registration successful. Please verify your email before logging in.",
+                            Toast.LENGTH_LONG
+                        ).show()
                         // Fade out and slide out to the left after successful registration
                         val fadeOut = AlphaAnimation(1f, 0f)
                         fadeOut.duration = 2000
@@ -185,7 +191,7 @@ class RegisterationPage : AppCompatActivity() {
 
                             override fun onAnimationEnd(animation: android.view.animation.Animation?) {
                                 rootLayout.visibility = View.GONE
-                                val intent = Intent(this@RegisterationPage, EditProfilePage::class.java)
+                                val intent = Intent(this@RegisterationPage, EmailVerificationPage::class.java)
                                 startActivity(intent)
                                 finish()
                             }

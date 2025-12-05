@@ -12,6 +12,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
 import android.widget.*
+import android.widget.AdapterView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -39,7 +40,7 @@ class InventoryPage : AppCompatActivity() {
     private lateinit var menuIcon: ImageView
     private lateinit var searchIcon: ImageView
     private lateinit var addBookButton: RelativeLayout
-    private lateinit var bookAdapter: InventoryBookAdapter
+    private lateinit var bookAdapter: SectionedInventoryAdapter
     private val bookList = mutableListOf<InventoryBook>() // Ensure this is the list used everywhere
     private val httpClient = OkHttpClient()
     private val CLOUD_NAME = "ddpt74pga"
@@ -92,7 +93,7 @@ class InventoryPage : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.bookRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        bookAdapter = InventoryBookAdapter(bookList) { loadInventory(userId) }
+        bookAdapter = SectionedInventoryAdapter(mutableListOf()) { loadInventory(userId) }
         recyclerView.adapter = bookAdapter // Ensure adapter is attached
 
         headerLayout.setBackgroundColor(android.graphics.Color.WHITE)
@@ -154,6 +155,11 @@ class InventoryPage : AppCompatActivity() {
 
         menuIcon.setOnClickListener { applyExitAnimationAndNavigate(MenuPage::class.java, "Navigating to MenuPage") }
         searchIcon.setOnClickListener { applyExitAnimationAndNavigate(SearchPage::class.java, "Navigating to SearchPage") }
+        
+        // Logo click to navigate to HomePage
+        logoImageView.setOnClickListener {
+            applyExitAnimationAndNavigate(HomePage::class.java, "Navigating to HomePage")
+        }
     }
 
     private fun loadInventory(userId: String) {
@@ -219,7 +225,7 @@ class InventoryPage : AppCompatActivity() {
         val bookNameInput = dialogView.findViewById<EditText>(R.id.bookNameInput)
         val bookAuthorInput = dialogView.findViewById<EditText>(R.id.bookAuthorInput)
         val bookDescriptionInput = dialogView.findViewById<EditText>(R.id.bookDescriptionInput)
-        val bookCategoriesInput = dialogView.findViewById<EditText>(R.id.bookCategoriesInput)
+        val bookCategorySpinner = dialogView.findViewById<Spinner>(R.id.bookCategorySpinner)
         val bookImagePreview = dialogView.findViewById<ImageView>(R.id.bookImagePreview)
         val chooseImageButton = dialogView.findViewById<Button>(R.id.chooseImageButton)
         val imageStatusText = dialogView.findViewById<TextView>(R.id.imageStatusText)
@@ -227,6 +233,19 @@ class InventoryPage : AppCompatActivity() {
         val saveButton = dialogView.findViewById<Button>(R.id.saveButton)
         val cancelButton = dialogView.findViewById<Button>(R.id.cancelButton)
         var uploadedImageUrl: String? = null
+
+        // Define categories
+        val categories = listOf(
+            "Fiction", "Non-Fiction", "Mystery", "Romance", "Science Fiction",
+            "Fantasy", "Horror", "Thriller", "Biography", "History",
+            "Self-Help", "Business", "Education", "Children's", "Young Adult",
+            "Poetry", "Drama", "Comedy", "Adventure", "Classic"
+        )
+
+        // Setup spinner
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        bookCategorySpinner.adapter = adapter
 
         val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
             .setTitle("Add New Book")
@@ -251,14 +270,19 @@ class InventoryPage : AppCompatActivity() {
             val name = bookNameInput.text.toString().trim()
             val author = bookAuthorInput.text.toString().trim()
             val description = bookDescriptionInput.text.toString().trim()
-            val categoriesInput = bookCategoriesInput.text.toString().trim()
+            val selectedCategory = bookCategorySpinner.selectedItem?.toString() ?: ""
 
             if (name.isEmpty()) {
                 bookNameInput.error = "Book name is required"
                 return@setOnClickListener
             }
 
-            val categories = categoriesInput.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+            if (selectedCategory.isEmpty()) {
+                Toast.makeText(this, "Please select a category", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val categories = listOf(selectedCategory)
 
             val imageUrl = uploadedImageUrl
             if (imageUrl.isNullOrEmpty()) {

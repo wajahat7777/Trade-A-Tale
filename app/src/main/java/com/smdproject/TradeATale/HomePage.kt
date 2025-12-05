@@ -166,6 +166,13 @@ class HomePage : AppCompatActivity() {
             applyExitAnimationAndNavigate(SearchPage::class.java, "Navigating to SearchPage")
         }
 
+        // Logo click to navigate to HomePage (refresh)
+        logoImageView.setOnClickListener {
+            // Already on HomePage, just refresh
+            loadBooksByCategory("Fiction", fictionAdapter)
+            loadBooksByCategory("Non-Fiction", nonFictionAdapter)
+        }
+
         // Add click listeners to book items
         fictionAdapter.setOnItemClickListener { book ->
             applyExitAnimationAndNavigate(ViewBookPage::class.java, "Navigating to ViewBookPage", book)

@@ -16,6 +16,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 class MenuPage : AppCompatActivity() {
     private lateinit var rootLayout: RelativeLayout
@@ -24,6 +28,7 @@ class MenuPage : AppCompatActivity() {
     private lateinit var menuIcon: ImageView
     private lateinit var searchIcon: ImageView
     private lateinit var messagesText: TextView
+    private lateinit var messageCountBadge: TextView
     private lateinit var savedBooksText: TextView
     private lateinit var barterRequestText: TextView
     private lateinit var inventoryText: TextView
@@ -54,6 +59,7 @@ class MenuPage : AppCompatActivity() {
         menuIcon = findViewById(R.id.menu_icon)
         searchIcon = findViewById(R.id.search_icon)
         messagesText = findViewById(R.id.messagesText)
+        messageCountBadge = findViewById(R.id.messageCountBadge)
         savedBooksText = findViewById(R.id.savedBooksText)
         barterRequestText = findViewById(R.id.barterRequestText)
         inventoryText = findViewById(R.id.inventoryText)
@@ -186,6 +192,61 @@ class MenuPage : AppCompatActivity() {
         logoutText.setOnClickListener {
             auth.signOut() // Sign out from Firebase
             applyExitAnimationAndNavigate(LogInPage::class.java, "Logged out successfully", clearStack = true)
+        }
+
+        // Logo click to navigate to HomePage
+        logoImageView.setOnClickListener {
+            applyExitAnimationAndNavigate(HomePage::class.java, "Navigating to HomePage")
+        }
+
+        // Load message count
+        loadMessageCount()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh message count when returning to this page
+        loadMessageCount()
+    }
+
+    private fun loadMessageCount() {
+        val userId = auth.currentUser?.uid ?: return
+        val database = FirebaseDatabase.getInstance(FirebaseConfig.REALTIME_DB_URL).reference
+
+        database.child("Chats").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var unreadCount = 0
+                snapshot.children.forEach { conversationSnapshot ->
+                    val conversationId = conversationSnapshot.key ?: return@forEach
+                    // Check if this conversation involves the current user
+                    if (conversationId.contains(userId)) {
+                        val messagesSnapshot = conversationSnapshot.child("messages")
+                        messagesSnapshot.children.forEach { messageSnapshot ->
+                            val receiverId = messageSnapshot.child("receiverId").getValue(String::class.java)
+                            val senderId = messageSnapshot.child("senderId").getValue(String::class.java)
+                            val isRead = messageSnapshot.child("read").getValue(Boolean::class.java) ?: false
+                            // Count unread messages where current user is the receiver
+                            if (receiverId == userId && senderId != userId && !isRead) {
+                                unreadCount++
+                            }
+                        }
+                    }
+                }
+                updateMessageCountBadge(unreadCount)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Silently fail - badge will just not show
+            }
+        })
+    }
+
+    private fun updateMessageCountBadge(count: Int) {
+        if (count > 0) {
+            messageCountBadge.text = count.toString()
+            messageCountBadge.visibility = android.view.View.VISIBLE
+        } else {
+            messageCountBadge.visibility = android.view.View.GONE
         }
     }
 }

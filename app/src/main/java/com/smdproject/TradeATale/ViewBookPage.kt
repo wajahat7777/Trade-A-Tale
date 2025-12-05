@@ -307,10 +307,20 @@ class ViewBookPage : AppCompatActivity() {
         menuIcon.setOnClickListener { applyExitAnimationAndNavigate(MenuPage::class.java, "Navigating to MenuPage") }
         searchIcon.setOnClickListener { applyExitAnimationAndNavigate(SearchPage::class.java, "Navigating to SearchPage") }
         barterButton.setOnClickListener { applyExitAnimationAndNavigate(InventoryPage::class.java, "Navigating to InventoryPage") }
+        
+        // Logo click to navigate to HomePage
+        logoImageView.setOnClickListener {
+            applyExitAnimationAndNavigate(HomePage::class.java, "Navigating to HomePage")
+        }
         contactButton.setOnClickListener {
+            val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
             val targetId = ownerId
             if (targetId.isNullOrEmpty()) {
                 Toast.makeText(this, "Owner information unavailable", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (currentUserId == targetId) {
+                Toast.makeText(this, "You cannot message yourself", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             val extras = Bundle().apply {
@@ -406,6 +416,18 @@ class ViewBookPage : AppCompatActivity() {
         }
         if (ownerId == null || bookId == null) {
             Toast.makeText(this, "Cannot create barter request: Missing owner or book ID", Toast.LENGTH_SHORT).show()
+            return
+        }
+        
+        // Prevent users from bartering their own books
+        if (userId == ownerId) {
+            Toast.makeText(this, "You cannot barter your own book", Toast.LENGTH_SHORT).show()
+            return
+        }
+        
+        // Prevent bartering the same book
+        if (selectedBookId == bookId) {
+            Toast.makeText(this, "You cannot barter the same book", Toast.LENGTH_SHORT).show()
             return
         }
 

@@ -1,106 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
-
-    <ImageView
-        android:id="@+id/bookImage"
-        android:layout_width="100dp"
-        android:layout_height="150dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/default_book_cover"
-        android:contentDescription="Book Cover" />
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/white">
 
     <RelativeLayout
-        android:id="@+id/bookDetails"
-        android:layout_toRightOf="@id/bookImage"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp">
+        android:padding="12dp">
 
-        <RelativeLayout
-            android:id="@+id/bookNameLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/bookImage"
+            android:layout_width="80dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_book_cover"
+            android:contentDescription="Book Cover"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" />
+
+        <LinearLayout
+            android:id="@+id/bookDetails"
+            android:layout_toEndOf="@id/bookImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/bookName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Book Name"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/AppPrimary" />
+                android:textColor="@color/AppPrimary"
+                android:maxLines="2"
+                android:ellipsize="end" />
 
             <TextView
                 android:id="@+id/bookAuthor"
-                android:layout_toRightOf="@+id/bookName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="Author"
                 android:textSize="14sp"
-                android:textColor="@color/AppPrimary" />
+                android:textColor="@android:color/darker_gray" />
 
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/bookDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Description"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:maxLines="2"
+                android:ellipsize="end" />
 
-        <TextView
-            android:id="@+id/bookDescription"
-            android:layout_below="@+id/bookNameLayout"
-            android:layout_width="120dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/bookCategory"
+                    android:text="Category"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:textSize="10sp"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:background="@drawable/button_background"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Description"
-            android:textSize="14sp"
-            android:textColor="@color/AppPrimary"
-            android:maxLines="3"
-            android:ellipsize="end" />
-
-        <View
-            android:background="@color/AppPrimary"
-            android:layout_width="5dp"
-            android:layout_toRightOf="@id/bookNameLayout"
-            android:layout_marginHorizontal="10dp"
-            android:layout_height="150dp"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_toRightOf="@id/bookDetails"
-        android:id="@+id/bookCategoryLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/bookCategory"
-            android:text="Category"
-            android:padding="5dp"
-            android:textAllCaps="true"
+            android:layout_below="@id/bookDetails"
+            android:layout_marginTop="12dp"
+            android:text="Delete Book"
             android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textSize="14sp"
             android:background="@drawable/button_background"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:padding="12dp" />
 
     </RelativeLayout>
 
-    <Button
-        android:layout_margin="10dp"
-        android:layout_below="@id/bookImage"
-        android:textColor="@color/white"
-        android:textAllCaps="true"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:text="DELETE"
-        android:background="@drawable/button_background"
-        android:id="@+id/deleteButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <View
-        android:background="@color/AppPrimary"
-        android:layout_width="wrap_content"
-        android:layout_below="@id/deleteButton"
-        android:layout_marginHorizontal="10dp"
-        android:layout_height="5dp"/>
-
-</RelativeLayout>
+</androidx.cardview.widget.CardView>

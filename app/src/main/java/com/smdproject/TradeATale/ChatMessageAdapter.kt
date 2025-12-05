@@ -51,7 +51,11 @@ class ChatMessageAdapter(private val currentUserId: String) :
         fun bind(message: ChatMessage) {
             messageText.text = message.text ?: ""
             timestampText.text = if (message.timestamp > 0) {
-                DateFormat.getTimeInstance(DateFormat.SHORT).format(Date(message.timestamp))
+                try {
+                    DateFormat.getTimeInstance(DateFormat.SHORT).format(Date(message.timestamp))
+                } catch (e: Exception) {
+                    ""
+                }
             } else {
                 ""
             }

@@ -157,6 +157,13 @@ class EditProfilePage : AppCompatActivity() {
             updateButton.setOnClickListener {
                 updateUserData(userId!!)
             }
+
+            // Logo click to navigate to HomePage
+            logoImageView.setOnClickListener {
+                val intent = Intent(this@EditProfilePage, HomePage::class.java)
+                startActivity(intent)
+                finish()
+            }
         } catch (e: Exception) {
             runOnUiThread {
                 Toast.makeText(this, "Error in onCreate: ${e.message}", Toast.LENGTH_LONG).show()
