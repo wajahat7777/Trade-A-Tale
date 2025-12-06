@@ -50,7 +50,10 @@ class ProfilePage : AppCompatActivity() {
         database = FirebaseDatabase
             .getInstance(FirebaseConfig.REALTIME_DB_URL)
             .reference
-        val userId = auth.currentUser?.uid ?: return
+        
+        // Get userId from intent (for viewing other users' profiles) or use current user
+        val userId = intent.getStringExtra("view_user_id") ?: auth.currentUser?.uid ?: return
+        val isViewingOtherProfile = intent.getStringExtra("view_user_id") != null
 
         // Initialize views
         rootLayout = findViewById(R.id.main)
@@ -58,6 +61,11 @@ class ProfilePage : AppCompatActivity() {
         logoImageView = findViewById(R.id.logoImageView)
         backNavigation = findViewById(R.id.back_navigation)
         editProfile = findViewById(R.id.editProfile)
+        
+        // Hide edit button if viewing someone else's profile
+        if (isViewingOtherProfile) {
+            editProfile.visibility = View.GONE
+        }
 
         // Set up RecyclerView for books
         val recyclerView = findViewById<RecyclerView>(R.id.bookRecyclerView)
