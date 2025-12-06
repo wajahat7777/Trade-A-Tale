@@ -166,6 +166,12 @@ class LogInPage : AppCompatActivity() {
                             return@addOnCompleteListener
                         }
                         Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
+                        
+                        // Initialize OneSignal after successful login
+                        OneSignalManager.initialize(this)
+                        // Save Player ID after login
+                        OneSignalManager.savePlayerIdAfterLogin()
+                        
                         // Fade out and slide out to the right after successful login
                         val fadeOut = AlphaAnimation(1f, 0f)
                         fadeOut.duration = 2000
