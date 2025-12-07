@@ -72,8 +72,7 @@
             android:background="@drawable/orange_circle"
             android:contentDescription="Send message"
             android:padding="12dp"
-            android:src="@drawable/search_logo"
-            android:tint="@color/white" />
+            android:src="@drawable/ic_send_arrow" />
 
     </LinearLayout>
 

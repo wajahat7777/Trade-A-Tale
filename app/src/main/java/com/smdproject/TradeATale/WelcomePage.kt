@@ -19,6 +19,10 @@ import com.google.firebase.auth.FirebaseAuth
 class WelcomePage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Initialize OneSignal
+        OneSignalManager.initialize(this)
+        
         enableEdgeToEdge()
         setContentView(R.layout.activity_welcome_page)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

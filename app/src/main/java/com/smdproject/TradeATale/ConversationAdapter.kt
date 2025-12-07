@@ -85,6 +85,15 @@ class ConversationAdapter(
                 unreadBadge.visibility = View.GONE
             }
 
+            // Click on profile picture to view profile
+            profilePicture.setOnClickListener {
+                val intent = android.content.Intent(itemView.context, ProfilePage::class.java).apply {
+                    putExtra("view_user_id", conversation.partnerId)
+                }
+                itemView.context.startActivity(intent)
+            }
+
+            // Click on conversation item to open chat
             conversationItem.setOnClickListener {
                 onConversationClick(conversation)
             }
