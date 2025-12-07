@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
 
 class LogInPage : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -166,6 +168,21 @@ class LogInPage : AppCompatActivity() {
                             return@addOnCompleteListener
                         }
                         Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
+                        
+                        // Initialize OneSignal after successful login
+                        OneSignalManager.initialize(this)
+                        // Save Player ID after login
+                        OneSignalManager.savePlayerIdAfterLogin()
+                        
+                        // Trigger welcome notification by writing to Firebase
+                        // The backend server will pick this up and send the notification
+                        val database = FirebaseDatabase
+                            .getInstance("https://tradeatale-8ddcb-default-rtdb.firebaseio.com/")
+                            .reference
+                        database.child("userLogins").child(user.uid).setValue(mapOf(
+                            "timestamp" to ServerValue.TIMESTAMP
+                        ))
+                        
                         // Fade out and slide out to the right after successful login
                         val fadeOut = AlphaAnimation(1f, 0f)
                         fadeOut.duration = 2000

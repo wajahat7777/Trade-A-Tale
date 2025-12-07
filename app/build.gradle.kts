@@ -58,6 +58,8 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.12.0")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation ("com.google.android.material:material:1.9.0")
+    // OneSignal SDK
+    implementation ("com.onesignal:OneSignal:[5.0.0, 5.99.99]")
     //
 
 }
