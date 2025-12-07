@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- The main background color of the shape.
+         #40FFFFFF is a semi-transparent white.
+         The first two digits (40) control the transparency. -->
+    <solid android:color="#40FFFFFF" />
+
+    <!-- The border of the shape. -->
+    <stroke
+        android:width="1dp"
+        android:color="#80FFFFFF" /> <!-- A more solid white for the border -->
+
+    <!-- The corners of the shape. -->
+    <corners android:radius="12dp" />
+
+</shape>
